@@ -1,0 +1,122 @@
+Spring in action book 5th edition V2
+
+
+chapter 1 getting started with spring
+
+1.1 What is spring?
+
+        -  spring offers a container often referred to as the spring application context that creates and manages application components, these components or beans are wired together inside the Spring application context to make a complete application, much like bricks
+-	The act of wiring is called dependency injection
+-	we don’t have other components creating and maintaining the lifecycle of other beans that they depend on, when it comes to dependency injection this will be handled by the container, create, maintain and inject the components when needed, this is done through constructor arguments or property accessors methods
+-	spring application context is this container in this case
+-	java based configuration of beans
+
+-	The @Configuration annotation indicates to Spring that this is a configuration class that will provide beans to the Spring application context. The configuration’s class methods are annotated with @Bean, indicating that the objects they return should be added as beans in the application context (where, by default, their respective bean IDs will be the same as the names of the methods that define them).
+
+
+- this type of config is needed if spring can do it itself
+-	Automatic configuration has its roots in the Spring techniques known as autowiring and component scanning
+-	with auto wiring spring automatically injects beans where is needed
+-	with component scanning spring discover components and create them as beans
+-	Spring Boot is an extension of the Spring Framework that offers several productivity enhancements. The most well-known of these enhancements is autoconfiguration, where Spring Boot can make reasonable guesses of what components need to be configured and wired together, based on entries in the class path, environment variables, and other factors.
+-	War files can be used only in java servers, for cloud we need jar files
+-	startspring.io – for creating a new project
+-	starters! provide the following benefits:
+-	Your build file will be significantly smaller and easier to manage because you won’t need to declare a dependency on every library you might need.  You’re able to think of your dependencies in terms of what capabilities they provide, rather than in terms of library names. If you’re developing a web application, you’ll add the web starter dependency rather than a laundry list of individual libraries that enable you to write a web application.  You’re freed from the burden of worry about library versions. You can trust that for a given version of Spring Boot, the versions of the libraries brought in tran sitively will be compatible. You only need to worry about which version of Spring Boot you’re using.
+-	@SpringBootConfiguration—Designates this class as a configuration class. Although there’s not much configuration in the class yet, you can add Java based Spring Framework configuration to this class if you need to. This annota tion is, in fact, a specialized form of the @Configuration annotation.  @EnableAutoConfiguration—Enables Spring Boot automatic configuration. We’ll talk more about autoconfiguration later. For now, know that this annota tion tells Spring Boot to automatically configure any components that it thinks you’ll need.  @ComponentScan—Enables component scanning. This lets you declare other classes with annotations like @Component, @Controller, @Service, and others, to have Spring automatically discover them and register them as components in the Spring application context.
+-	main method runs when the jar file is executed
+-	Because HomeController is annotated with @Controller, Spring’s component scanning automatically discovers it and creates an instance of Home Controller as a bean in the Spring application context.
+-	h2-console for DB
+-
+
+Testing the controller
+
+
+
+
+Recative style spring web flux todo looks intrsting
+reactive*
+Core spring framework: includes containers and dependency injection framework
+Spring boot: starter dependencies and autonconfiguration
+-	Actuator is included in spring boot
+-	Flexible specification of environment properties.  Additional testing support on top of the testing assistance found in the core framework.
+Groovy and spring boot cli
+Spring data: What’s more, Spring Data is capable of working with a several different kinds of databases, including relational (JPA), document (Mongo), graph (Neo4j),
+Batch provide the implementation of these patterns for Spring-based applications. Spring Integration addresses real-time integration where data is processed as it’s made available. In contrast, Spring Batch addresses batched integration where data is allowed to collect for a time until some trigger (perhaps a time trigger) signals that it’s time for the batch of data to be processed.
+Spring security
+Spring Cloud covers a lot of ground, and it’d be impossible to cover it all in this book. We’ll look at some of the most common components of Spring Cloud in chap ters 13, 14, and 15. For a more complete discussion of Spring Cloud, I suggest taking a look at Spring Microservices in Action by John Carnell (Manning, 2017, www.manning .com/books/spring-microservices-in-action).
+
+Summary
+ Spring aims to make developer challenges easy, like creating web applications,
+working with databases, securing applications, and microservices.
+ Spring Boot builds on top of Spring to make Spring even easier with simplified
+dependency management, automatic configuration, and runtime insights.
+ Spring applications can be initialized using the Spring Initializr, which is web based and supported natively in most Java development environments.
+ The components, commonly referred to as beans, in a Spring application con text can be declared explicitly with Java or XML, discovered by component
+scanning, or automatically configured with Spring Boot autoconfiguration.
+
+Chapter 2: Developing web applications
+
+a controller fetches the information
+a domain class defines the properties of an object
+
+
+An application’s domain is the subject area that it addresses—the ideas and concepts that influence the understanding of the application
+
+
+we used lombok data
+lombok has also other useful annotations
+- controllers handles web requests
+-  write data directly to the body of a response (RESTful)
+- , @Slf4j simlple logging facade
+-  @Controller -> marke the candidate for component scanning adn finds it as a controller
+- he @RequestMapping annotation, when applied at the class level, specifies the kind of requests that
+  this controller handles
+ - @RequestMapping(method=RequestMethod.GET) == @GetMapping, since spring 4.3
+ -  @RequestMapping General-purpose request handling
+    @GetMapping Handles HTTP GET requests
+    @PostMapping Handles HTTP POST requests
+    @PutMapping Handles HTTP PUT requests
+    @DeleteMapping Handles HTTP DELETE requests
+    @PatchMapping Handles HTTP PATCH requests
+ @RequestMapping at the class level to specify the base
+path. I use the more specific @GetMapping, @PostMapping, and so on, on each of
+the handler methods
+- 2.3 validating form input
+
+java bean validation api and hibernate validation annotations
+
+ @CreditCardNumber(message="Not a valid credit card number")
+we have one specific for credit cards
+- @Pattern(regexp="^(0[1-9]|1[0-2])([\\/])([1-9][0-9])$",
+   message="Must be formatted MM/YY")
+   private String ccExpiration;
+   @Digits(integer=3, fraction=0, message="Invalid CVV")
+   private String ccCVV;
+
+- i hate regex,,,gluma if you have a problem and you need to use regex now you have
+2 problems :)
+-  http://www.regularexpressions.info/.
+- The @Valid annotation tells Spring MVC to perform validation on the submitted Taco
+  object after it’s bound to the submitted form data and before the processDesign()
+  method is called.
+ -  web config
+ - here is used with the implementing the web mvc interface
+
+Summary
+ Spring offers a powerful web framework called Spring MVC that can be used to
+develop the web frontend for a Spring application.
+ Spring MVC is annotation-based, enabling the declaration of request-handling
+methods with annotations such as @RequestMapping, @GetMapping, and @PostMapping.
+ Most request-handling methods conclude by returning the logical name of a
+view, such as a Thymeleaf template, to which the request (along with any model
+data) is forwarded.
+ Spring MVC supports validation through the Java Bean Validation API and
+implementations of the Validation API such as Hibernate Validator.
+ View controllers can be used to handle HTTP GET requests for which no
+model data or processing is required.
+ In addition to Thymeleaf, Spring supports a variety of view options, including
+FreeMarker, Groovy Templates, and Mustache
+
+chapter 3 working with data :)
+
