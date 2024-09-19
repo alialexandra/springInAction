@@ -1,15 +1,27 @@
 // tag::all[]
 // tag::allButValidation[]
 package com.example.demo;
-import java.util.List;
-// end::allButValidation[]
+
+import jakarta.persistence.*;
+import lombok.*;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-// tag::allButValidation[]
-import lombok.Data;
+import java.util.List;
 
-@Data
+// end::allButValidation[]
+// tag::allButValidation[]
+
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@Entity
 public class Taco {
+
+  @Id
+  @GeneratedValue(strategy= GenerationType.AUTO)
+  private Long id;
 
   // end::allButValidation[]
   @NotNull

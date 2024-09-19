@@ -120,3 +120,56 @@ FreeMarker, Groovy Templates, and Mustache
 
 chapter 3 working with data :)
 
+- Although the interface captures the essence of what you need an ingredient repository to do, you’ll still need to write an implementation of IngredientRepository that
+  uses JdbcTemplate to query
+- JdbcIngredientRepository is annotated with @Repository. This
+  annotation is one of a handful of stereotype annotations that Spring defines, including @Controller and @Component. By annotating JdbcIngredientRepository with
+  @Repository, you declare that it should be automatically discovered by Spring component scanning and instantiated as a bean in the Spring application context
+-   The first thing you’ll notice about the code in listing 3.12 is that DesignTacoController is now annotated with @SessionAttributes("order") and that it has a
+    new @ModelAttribute annotated method, order(). As with the taco() method, the
+    @ModelAttribute annotation on order() ensures that an Order object will be created
+    in the model. But unlike the Taco object in the session, you need the order to be
+    present across multiple requests so that you can create multiple tacos and add them
+    to the order. The class-level @SessionAttributes annotation specifies any model
+    Listing 3.12 Saving taco designs and linking them to orders
+    objects like the order attribute that should be kept in session and available across
+    multiple requests
+
+ Spring Data JPA—JPA persistence against a relational database
+ Spring Data MongoDB—Persistence to a Mongo document database todo
+ Spring Data Neo4j—Persistence to a Neo4j graph database
+ Spring Data Redis—Persistence to a Redis key-value store
+ Spring Data Cassandra—Persistence to a Cassandra database todo
+
+i remeber a clean code thing that is not ok to have @data and @entity on the same class
+
+- The JPA specification requires that all persistent classes (@Entity) have a no-arg constructor, public or protected. (note that this is not necessarily true when dealing with some implementation like Hibernate, see this answer).
+
+->
+In order to declare this as a JPA entity, Ingredient must be annotated with @Entity.
+And its id property must be annotated with @Id to designate it as the property that will
+uniquely identify the entity in the database.
+ In addition to the JPA-specific annotations, you’ll also note that you’ve added a
+@NoArgsConstructor annotation at the class level. JPA requires that entities have a noarguments constructor, so Lombok’s @NoArgsConstructor does that for you. You
+don’t want to be able to use it, though, so you make it private by setting the access
+attribute to AccessLevel.PRIVATE. And because there are final properties that must
+be set, you also set the force attribute to true, which results in the Lombok-generated
+constructor setting them to null.
+ You also add a @RequiredArgsConstructor. The @Data implicitly adds a required
+arguments constructor, but when a @NoArgsConstructor is used, that constructor gets
+removed. An explicit @RequiredArgsConstructor ensures that you’ll still have a
+required arguments constructor in addition to the private no-arguments constructor.
+
+To declare the relationship between a Taco and its associated Ingredient list, you
+annotate ingredients with @ManyToMany. A Taco can have many Ingredient objects,
+and an Ingredient can be a part of many Tacos.
+ You’ll also notice that there’s a new method, createdAt(), which is annotated with
+@PrePersist. You’ll use this to set the createdAt property to the current date and
+time before Taco is persisted. Finally, let’s annotate the Order object as an entity. The
+next listing shows the new Order class.
+
+- side note: many to many is very dangerous.. this kind of relationship needs to be avoided
+and liniarised somehow
+-
+
+
